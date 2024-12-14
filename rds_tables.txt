@@ -1,0 +1,9 @@
+CREATE TABLE Model_Runs (
+    run_id SERIAL PRIMARY KEY,                     -- Auto-incremented unique ID
+    start_time TIMESTAMP NOT NULL,                 -- Start time of the run
+    end_time TIMESTAMP NOT NULL,                   -- End time of the run
+    data_size INT,                                -- Size of the dataset in MB or number of patches processed
+    run_duration INTERVAL,                         -- Duration of the model run (calculated from start_time and end_time)
+    model_output_path VARCHAR(255),                -- Path to the output file (e.g., path_to_output.tif)
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of model run
+);
