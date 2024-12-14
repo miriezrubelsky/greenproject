@@ -1,0 +1,102 @@
+
+services:
+  node01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: node01
+    environment:
+      - node.name=node01
+      - cluster.name=es-cluster-7
+      - discovery.type=single-node
+      - "ES_JAVA_OPTS=-Xms2g -Xmx2g"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data01:/usr/share/elasticsearch/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 9200:9200
+    networks:
+      - es-network
+
+      
+
+  kibana:
+    image: docker.elastic.co/kibana/kibana:7.11.1
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://node01:9200
+      XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY: "q87pAK/9tFaipeTgdXJPhd9zN2PbgDW/Sma/d0AcWI8="
+    ports:
+      - 5601:5601
+    networks:
+      - es-network
+    depends_on:
+      - node01
+
+  metricbeat:
+    image: docker.elastic.co/beats/metricbeat:7.11.1
+    container_name: metricbeat
+    environment:
+          - ES_HOST=http://node01:9200
+     
+    volumes:
+      - ./metricbeat.yml:/usr/share/metricbeat/metricbeat.yml
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - metricbeat-data01:/usr/share/metricbeat/data
+    networks:
+      - es-network
+    depends_on:
+      - node01
+      - kibana
+    command: >
+        sh -c "chmod  go-w /usr/share/metricbeat/metricbeat.yml && metricbeat setup --dashboards && metricbeat -e"
+  
+      
+  
+  green-project:
+    build:
+      context: ../../../  # Specify the path where your Dockerfile is located
+      dockerfile: Dockerfile  # If your Dockerfile has a custom name, replace it here
+    container_name: green-project
+    environment:
+      - ES_HOST=http://node01:9200  # Elasticsearch container hostname
+    ports:
+      - 8000:8000  # Map the port that your app is running on
+    networks:
+      - es-network
+    depends_on:
+      - node01 
+      - postgres # Ensure your app waits for Elasticsearch to be available
+    command: >
+      sh -c "wait-for-it node01:9200 --timeout=60 --strict -- your-app-start-command"
+    volumes:
+      - ../../downloaded_files:/downloaded_files  # Mount local folder to container's /downloaded_files
+      - ../../output_files:/output_files  
+
+  postgres:
+    image: "postgres:alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "1234"
+      POSTGRES_DB: postgres
+    networks:
+      - es-network
+
+     
+
+volumes:
+  es-data01:
+    driver: local
+  metricbeat-data01:
+    driver: local
+
+networks:
+  es-network:
+    external: true
+    driver: bridge
+
+

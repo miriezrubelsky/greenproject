@@ -1,0 +1,17 @@
+rasterio==1.3.10
+detectree==0.5.1
+numpy==1.26.4
+cloth-simulation-filter==1.1.5
+pathlib2==2.3.7.post1
+shapely==2.0.6
+scikit-image==0.24.0
+geopandas==0.14.4
+pillow==10.4.0
+tqdm==4.65.2
+matplotlib
+scikit-learn== 1.5.2
+boto3 == 1.35.76
+python_elastic_logstash
+requests
+elasticsearch<8.0.0,>=7.0.0
+psycopg2
