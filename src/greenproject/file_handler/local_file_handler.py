@@ -5,6 +5,7 @@ import json
 
 from affine import Affine
 from rasterio.crs import CRS
+import rasterio as rio
 
 PACKAGE_ROOT = Path(os.path.abspath(os.path.dirname(__file__))).parent
 sys.path.append(str(PACKAGE_ROOT))
@@ -23,21 +24,21 @@ def load_tif_file_list():
             tif_file_list.append(folder_name)  # A
     return   tif_file_list      
 
-def load_file_parameters():
-    parameters_dict = {}
+def load_file_metadata():
+    metadata_dict = {}
     source_dir = get_source_dir()
-    parameters_dir = get_parameters_dir()
+    metadata_dir = get_metadata_dir()
     for folder_name in os.listdir(source_dir):
         folder_path = os.path.join(source_dir, folder_name)
         if os.path.isdir(folder_path):
-            parameters_file_name = folder_name + '_parameters.txt'
-            parameters_file_path = os.path.join(parameters_dir, parameters_file_name)
-            print(f"Checking file: '{parameters_file_path}'")
-            parameters_file_path = Path(parameters_file_path)
-            if parameters_file_path.exists():
-                parameters ={}
-                print(f"Parameters file found for {folder_name}: {parameters_file_path}")
-                with open(parameters_file_path, 'r') as f:
+            metadata_file_name = folder_name + '_metadata.txt'
+            metadata_file_path = os.path.join(metadata_dir, metadata_file_name)
+            print(f"Checking file: '{metadata_file_path}'")
+            metadata_file_path = Path(metadata_file_path)
+            if metadata_file_path.exists():
+                metadata ={}
+                print(f"Metadata file found for {folder_name}: {metadata_file_path}")
+                with open(metadata_file_path, 'r') as f:
                     data = json.load(f)
                     transform_data = data['transform']
                     transform = Affine(
@@ -46,16 +47,16 @@ def load_file_parameters():
                     )
                     crs = CRS.from_string(data['crs'])
                     image_size = data['image_size']
-                    parameters['image_size']=image_size
-                    parameters['crs']=crs
-                    parameters['transform']=transform
+                    metadata['image_size']=image_size
+                    metadata['crs']=crs
+                    metadata['transform']=transform
                     print("Reconstructed Affine Transform:", transform)
                     print("Reconstructed CRS:", crs)
                     print("Reconstructed Image Size:", image_size)
-                    parameters_dict[folder_name] = parameters
+                    metadata_dict[folder_name] = metadata
                     print(folder_name)
-                    print(parameters)
-    return   parameters_dict   
+                    print(metadata)
+    return   metadata_dict   
 
 
 def load_file_offsets():
@@ -96,13 +97,20 @@ def get_offsets_dir():
    offset_dir = os.path.join(local_dir, config.offset_prefix)
    return offset_dir
 
-def get_parameters_dir():
+def get_metadata_dir():
    parent_dir = os.path.abspath(os.path.join(os.getcwd(), '..','..'))
    local_dir = os.path.join(parent_dir, config.local_dir)
-   parameters_dir = os.path.join(local_dir, config.parameters_prefix)
-   return parameters_dir
-        
+   metadata_dir = os.path.join(local_dir, config.metadata_prefix)
+   return metadata_dir
+
+def load_png_file(png_file):
+    """Load and return the PNG file using rasterio."""
+    with rio.open(png_file) as src:
+        image = src.read(1)  # Reads the first band of the image
+    return image 
+
+       
 
 if __name__ == '__main__':                
-  offsets_dict=load_file_parameters()
+  offsets_dict=load_file_metadata()
   print(offsets_dict)
