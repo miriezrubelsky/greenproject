@@ -15,3 +15,4 @@ python_elastic_logstash
 requests
 elasticsearch<8.0.0,>=7.0.0
 psycopg2
+emails
