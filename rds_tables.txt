@@ -7,3 +7,18 @@ CREATE TABLE Model_Runs (
     model_output_path VARCHAR(255),                -- Path to the output file (e.g., path_to_output.tif)
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP -- Timestamp of model run
 );
+
+
+CREATE TABLE validation_results (
+    id SERIAL PRIMARY KEY,      -- Auto-incrementing primary key
+    validation_image TEXT NOT NULL,            -- Path or filename of the validation image
+    pred_image TEXT NOT NULL,                 -- Path or filename of the predicted image
+    jaccard_score FLOAT NOT NULL,             -- The Jaccard similarity score
+    threshold FLOAT NOT NULL,                 -- Threshold for validation success
+    status TEXT NOT NULL,                     -- Status of validation, e.g., "Success", "Failure"
+    
+   
+    error_message TEXT,                       -- Error message if validation fails
+    created_at TIMESTAMP  DEFAULT CURRENT_TIMESTAMP,  -- Timestamp when the record was created
+    updated_at TIMESTAMP  DEFAULT CURRENT_TIMESTAMP  -- Timestamp when the record was last updated
+);

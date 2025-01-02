@@ -27,10 +27,10 @@ VOLUME /code/src/greenproject/logs
 
 # Create the input-files directory
 #RUN mkdir -p /downloaded_files
-#RUN mkdir -p /output_files
+
 
 VOLUME /downloaded_files
-VOLUME /output_files
+
 
 EXPOSE 8000
 
@@ -39,8 +39,8 @@ EXPOSE 8000
 ENV PYTHONPATH "${PYTHONPATH}:/code/src"
 
 
+ENTRYPOINT ["python", "/code/src/greenproject/validator_file_watcher.py"]
 
-ENTRYPOINT ["python", "src/greenproject/main.py"]
 
 #CMD ["pytest"]
 
