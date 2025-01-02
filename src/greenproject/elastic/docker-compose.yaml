@@ -53,12 +53,29 @@ services:
     command: >
         sh -c "chmod  go-w /usr/share/metricbeat/metricbeat.yml && metricbeat setup --dashboards && metricbeat -e"
   
-      
+  validator-project:
+    build:
+      context: ../../../  # Specify the path where your Dockerfile is located
+      dockerfile: validator-docker/Dockerfile  # If your Dockerfile has a custom name, replace it here
+    container_name: validator-project
+    environment:
+      - ES_HOST=http://node01:9200  # Elasticsearch container hostname
+    ports:
+      - 8000:8000  # Map the port that your app is running on
+    networks:
+      - es-network
+    depends_on:
+      - node01 
+      - postgres # Ensure your app waits for Elasticsearch to be available
+    command: >
+      sh -c "wait-for-it node01:9200 --timeout=60 --strict -- your-app-start-command"
+    volumes:
+      - ../../downloaded_files:/downloaded_files  # Mount local folder to container's /downloaded_files   
   
   green-project:
     build:
       context: ../../../  # Specify the path where your Dockerfile is located
-      dockerfile: Dockerfile  # If your Dockerfile has a custom name, replace it here
+      dockerfile: green-project-docker/Dockerfile  # If your Dockerfile has a custom name, replace it here
     container_name: green-project
     environment:
       - ES_HOST=http://node01:9200  # Elasticsearch container hostname
@@ -74,6 +91,8 @@ services:
     volumes:
       - ../../downloaded_files:/downloaded_files  # Mount local folder to container's /downloaded_files
       - ../../output_files:/output_files  
+  
+     
 
   postgres:
     image: "postgres:alpine"
