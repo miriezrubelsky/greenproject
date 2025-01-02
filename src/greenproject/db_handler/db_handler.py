@@ -54,3 +54,31 @@ class DBHandler:
             print(f"Error inserting model run data: {e}")
             self.conn.rollback()
             raise
+
+    def insert_validation_result(self, validation_image, pred_image, jaccard_score, threshold, status, error_message=None):
+        """
+        Inserts validation result into the 'validation_results' table.
+        """
+        
+    # Create the SQL insert query
+        insert_query = """
+            INSERT INTO validation_results (
+             validation_image,
+             pred_image,
+             jaccard_score,
+             threshold,
+             status,
+             
+             error_message
+            ) VALUES (
+                %s, %s, %s, %s, %s, %s
+            )
+            """
+        try:
+            self.cursor.execute(insert_query, (validation_image, pred_image, jaccard_score, threshold, status,error_message))
+            self.conn.commit()
+            print("Model run data inserted successfully.")
+        except Exception as e:
+            print(f"Error inserting model run data: {e}")
+            self.conn.rollback()
+            raise
