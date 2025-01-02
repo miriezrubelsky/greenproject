@@ -23,6 +23,10 @@ class ImageProcessor:
         self.clf = pickle.load(open(self.model_path, 'rb'))
         self.clf_v1 = dtr.Classifier(clf=self.clf)
 
+    
+   
+    
+    
     def process_image(self, png_name, transform):
         appLogger.getLogger().debug("Start process image")
         file_name = os.path.basename(png_name)
@@ -32,8 +36,8 @@ class ImageProcessor:
         offset = self.offsets[file_name]
         # Predict models
         #appLogger.getLogger().debug(png_name)
-        
-        y_pred = self.clf_v1.predict_img(png_name)
+        y_pred = self.predict_image(png_name)
+        #y_pred = self.clf_v1.predict_img(png_name)
         # Process results
         vegetation_mask = np.where(y_pred == 0, 0, 255)
         polygons = self.create_polygons(vegetation_mask)
@@ -52,6 +56,11 @@ class ImageProcessor:
 
         return adjusted_polygons 
 
+    def predict_image(self,png_name):
+        y_pred = self.clf_v1.predict_img(png_name)
+        return y_pred
+    
+    
     def create_polygons(self, mask):
 
         simplification_tolerance = 1.0
