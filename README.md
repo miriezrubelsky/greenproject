@@ -29,4 +29,96 @@ The implementation of this project is based on 3 pipelines:
 
 ![IO Diagram](diagrams/green-architecture-diagram.drawio.png)
 ![IO Diagram](diagrams/gree-architectur-diagram-continue.drawio.png)
-              
+
+
+
+This project contains 2 pipelines:
+Processing pipeline and validation pipeline.
+Lambda pipeline is located in different git project (https://github.com/miriezrubelsky/green-lambda)
+
+Processing Pipeline Overview 
+This project processes remote sensing images (TIFF and PNG) and uploads the results to an S3 bucket, 
+while also logging relevant data to a PostgreSQL database and ES. 
+The primary operations include downloading files from S3, processing images, saving results,updating the database and saving logs to ES.
+
+Key Components:
+
+File Management:
+
+Downloads necessary files from an S3 bucket using s3_file_handler.
+Uploads processed files back to S3.
+Moves completed folders to a designated "completed" directory on S3.
+
+Data Loading:
+
+Loads necessary metadata, offsets, and TIFF files from local storage using local_file_handler.
+Image Processing:
+
+Processes TIFF files and associated PNG images.
+Uses ImageProcessor to adjust polygons in the images based on metadata and offsets.
+Post-processes and saves the output as shapefiles using PostImageProcessor.
+Database Interaction:
+
+Logs information about each processing run to a PostgreSQL database using DBHandler.
+Logs include start and end times, total data size, and run duration.
+
+Logging:
+
+The application uses AppLogger to log debug information to ES throughout the workflow, helping to trace the processing steps.
+Run Logic:
+
+The process is initiated in the main() function, which performs the following steps:
+Checks if the input S3 folder is empty.
+Downloads files from S3.
+Processes each TIFF file and its associated PNG images.
+Logs the results of each run into the database.
+Uploads processed files to S3  and moves all "in-process"  files to the "completed" folder.
+
+Project Workflow:
+Download Files: Retrieves necessary input data (files) from an S3 bucket.
+Process TIFF & PNG Images: For each TIFF file, it processes corresponding PNG images by adjusting polygons based on metadata and offsets.
+Post-processing: Saves the processed results as shapefiles.
+Database Logging: Logs the processing details (timing, size, output) into a PostgreSQL database.
+Upload and Completion: Uploads processed files back to S3 and moves them to a "completed" folder.
+
+
+
+ greenproject
+│     ├─ appLogger.py
+│     ├─ config
+│     │  ├─ config.py
+│     │  ├─ db_config.py
+│     ├─ db_handler
+│     │  ├─ db_handler.py
+│     ├─ elastic
+│     │  ├─ docker-compose.yaml
+│     │  ├─ es_docker_mbeat_03.Dockerfile
+│     │  ├─ kibana.yml
+│     │  ├─ metricbeat.yml
+│     │  └─ startup_metricbeat.sh
+│     ├─ file_handler
+│     │  ├─ local_file_handler.py
+│     │  ├─ s3_file_handler.py
+│     ├─ green_project_file_watcher.py
+│     ├─ input-data
+│     │  ├─ trueOrtho_20cm_2.tif
+│     │  ├─ trueOrtho_20cm_3.tif
+│     │  ├─ trueOrtho_20cm_4.tif
+│     │  ├─ trueOrtho_20cm_5.tif
+│     │  └─ __init__.py
+│     ├─ mail_handler
+│     │  ├─ mail_handler.py
+│     │  └─ __init__.py
+│     ├─ main.py
+│     ├─ processing
+│     │  ├─ image_processor.py
+│     │  ├─ post_image_processor.py
+│     │  └─ __init__.py
+│     ├─ requirements.txt
+│     ├─ trained_model
+│     │  ├─ tree_model_new
+│     ├─ validator.py
+│     ├─ validator_file_watcher.py
+
+
+```
