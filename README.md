@@ -82,9 +82,6 @@ Database Logging: Logs the processing details (timing, size, output) into a Post
 Upload and Completion: Uploads processed files back to S3 and moves them to a "completed" folder.
 
 # Project Directory Structure
-
-
-
  greenproject
 │     ├─ appLogger.py
 │     ├─ config
