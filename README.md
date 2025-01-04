@@ -44,7 +44,8 @@ The primary operations include downloading files from S3, processing images, sav
 
 # <span style="color: blue;">**Key Components:**</span>
 
-# <small><strong>File Management:</strong></small>
+# <sub>File Management:</sub>
+
 
 Downloads necessary files from an S3 bucket using s3_file_handler.
 Uploads processed files back to S3.
