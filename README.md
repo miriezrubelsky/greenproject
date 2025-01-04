@@ -42,7 +42,8 @@ This project processes remote sensing images (TIFF and PNG) and uploads the resu
 while also logging relevant data to a PostgreSQL database and ES. 
 The primary operations include downloading files from S3, processing images, saving results,updating the database and saving logs to ES.
 
-Key Components:
+# <span style="color: blue;">**Key Components:**</span>
+
 
 File Management:
 
