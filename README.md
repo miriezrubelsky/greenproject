@@ -87,11 +87,11 @@ The process is initiated in the `main()` function, which performs the following 
 
 # <span style="color: blue;">**Project Workflow:**</span>
 
-Download Files: Retrieves necessary input data (files) from an S3 bucket.<br>
-Process TIFF & PNG Images: For each TIFF file, it processes corresponding PNG images by adjusting polygons based on metadata and offsets.<br>
-Post-processing: Saves the processed results as shapefiles.<br>
-Database Logging: Logs the processing details (timing, size, output) into a PostgreSQL database.<br>
-Upload and Completion: Uploads processed files back to S3 and moves them to a "completed" folder.
+- Download Files: Retrieves necessary input data (files) from an S3 bucket.<br>
+- Process TIFF & PNG Images: For each TIFF file, it processes corresponding PNG images by adjusting polygons based on metadata and offsets.<br>
+- Post-processing: Saves the processed results as shapefiles.<br>
+- Database Logging: Logs the processing details (timing, size, output) into a PostgreSQL database.<br>
+- Upload and Completion: Uploads processed files back to S3 and moves them to a "completed" folder.
 
 ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br>
 
