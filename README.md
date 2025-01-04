@@ -77,12 +77,13 @@ The application uses AppLogger to log debug information to ES throughout the wor
 
 # <sub>Run Logic:</sub>
 
-The process is initiated in the main() function, which performs the following steps:
-Checks if the input S3 folder is empty.
-Downloads files from S3.
-Processes each TIFF file and its associated PNG images.
-Logs the results of each run into the database.
-Uploads processed files to S3  and moves all "in-process"  files to the "completed" folder.
+The process is initiated in the `main()` function, which performs the following steps:<br>
+- Checks if the input S3 folder is empty.<br>
+- Downloads files from S3.<br>
+- Processes each TIFF file and its associated PNG images.<br>
+- Logs the results of each run into the database.<br>
+- Uploads processed files to S3 and moves all "in-process" files to the "completed" folder.
+
 
 # <span style="color: blue;">**Project Workflow:**</span>
 
