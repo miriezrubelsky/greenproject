@@ -28,3 +28,4 @@ clf_model.predict_img(f'{OUTPUT_PNG_SPLIT}/{png_name}')
 The implementation of this project is based on 3 pipelines:
 
 ![IO Diagram](diagrams/green-architecture-diagram.drawio.png)
+![IO Diagram](gree-architectur-diagram-continue.drawio.png)
