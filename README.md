@@ -36,7 +36,7 @@ This project contains 2 pipelines:
 Processing pipeline and validation pipeline.
 Lambda pipeline is located in different git project (https://github.com/miriezrubelsky/green-lambda)
 
-<span style="color: blue; font-weight: bold;">Processing Pipeline Overview </span>
+# <span style="color: blue;">**Processing Pipeline Overview**</span>
 
 This project processes remote sensing images (TIFF and PNG) and uploads the results to an S3 bucket, 
 while also logging relevant data to a PostgreSQL database and ES. 
