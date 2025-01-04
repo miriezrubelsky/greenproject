@@ -51,7 +51,8 @@ Downloads necessary files from an S3 bucket using s3_file_handler.
 Uploads processed files back to S3.
 Moves completed folders to a designated "completed" directory on S3.
 
-Data Loading:
+# <sub>Data Loading:</sub>
+
 
 Loads necessary metadata, offsets, and TIFF files from local storage using local_file_handler.
 Image Processing:
@@ -64,10 +65,13 @@ Database Interaction:
 Logs information about each processing run to a PostgreSQL database using DBHandler.
 Logs include start and end times, total data size, and run duration.
 
-Logging:
+
+# <sub>Logging:</sub>
 
 The application uses AppLogger to log debug information to ES throughout the workflow, helping to trace the processing steps.
-Run Logic:
+
+
+# <sub>Run Logic:</sub>
 
 The process is initiated in the main() function, which performs the following steps:
 Checks if the input S3 folder is empty.
@@ -76,7 +80,8 @@ Processes each TIFF file and its associated PNG images.
 Logs the results of each run into the database.
 Uploads processed files to S3  and moves all "in-process"  files to the "completed" folder.
 
-Project Workflow:
+# <span style="color: blue;">**Project Workflow:**</span>
+
 Download Files: Retrieves necessary input data (files) from an S3 bucket.
 Process TIFF & PNG Images: For each TIFF file, it processes corresponding PNG images by adjusting polygons based on metadata and offsets.
 Post-processing: Saves the processed results as shapefiles.
