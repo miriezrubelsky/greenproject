@@ -55,12 +55,16 @@ Moves completed folders to a designated "completed" directory on S3.
 
 
 Loads necessary metadata, offsets, and TIFF files from local storage using local_file_handler.
-Image Processing:
+
+
+# <sub>Image Processing:</sub>
 
 Processes TIFF files and associated PNG images.
 Uses ImageProcessor to adjust polygons in the images based on metadata and offsets.
 Post-processes and saves the output as shapefiles using PostImageProcessor.
-Database Interaction:
+
+# <sub>Database Interaction:</sub>
+
 
 Logs information about each processing run to a PostgreSQL database using DBHandler.
 Logs include start and end times, total data size, and run duration.
