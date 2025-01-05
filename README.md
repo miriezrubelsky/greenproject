@@ -108,11 +108,11 @@ database updates, and email notifications. The key functionalities are outlined 
 
 # <span style="color: blue;">**Validation Workflow:**</span>
 The validate() function handles the validation process by:
--Download validation and processing images from S3. <br>
--Connecting to a database (DBHandler).<br>
--Categorizing files into validation and prediction images.<br>
--Processing the prediction image and calculating the Jaccard similarity score between the predicted and validation images using validation_utils.<br>
--Sending the validation results via email and updating the database with the calculated score, comparison status, and error messages.<br>
+- Download validation and processing images from S3. <br>
+- Connecting to a database (DBHandler).<br>
+- Categorizing files into validation and prediction images.<br>
+- Processing the prediction image and calculating the Jaccard similarity score between the predicted and validation images using validation_utils.<br>
+- Sending the validation results via email and updating the database with the calculated score, comparison status, and error messages.<br>
 
 ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br>
 
