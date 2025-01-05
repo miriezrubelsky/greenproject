@@ -69,6 +69,10 @@ Post-processes and saves the output as shapefiles using PostImageProcessor.
 Logs information about each processing run to a PostgreSQL database using DBHandler.
 Logs include start and end times, total data size, and run duration.
 
+# <sub>Mail Interaction:</sub>
+
+MailHandler is a utility class for sending emails via SMTP, 
+providing an easy interface for email communication with configurable server and authentication details.
 
 # <sub>ES Logging:</sub>
 
@@ -94,6 +98,25 @@ The process is initiated in the `main()` function, which performs the following 
 - Upload and Completion: Uploads processed files back to S3 and moves them to a "completed" folder.
 
 ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br>
+
+
+
+# <span style="color: blue;">**Validation Pipeline Overview**</span>
+
+This project is focused on the validation of image processing models using a combination of image comparison, 
+database updates, and email notifications. The key functionalities are outlined below:
+
+# <span style="color: blue;">**Validation Workflow:**</span>
+The validate() function handles the validation process by:
+-Download validation and processing images from S3. <br>
+-Connecting to a database (DBHandler).<br>
+-Categorizing files into validation and prediction images.<br>
+-Processing the prediction image and calculating the Jaccard similarity score between the predicted and validation images using validation_utils.<br>
+-Sending the validation results via email and updating the database with the calculated score, comparison status, and error messages.<br>
+
+ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br>
+
+
 
 
 # Project Directory Structure
@@ -136,3 +159,4 @@ ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br
 
 
 ```
+
