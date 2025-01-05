@@ -41,7 +41,12 @@ Lambda pipeline is located in different git project (https://github.com/miriezru
 This project processes remote sensing images (TIFF and PNG) and uploads the results to an S3 bucket, 
 while also logging relevant data to a PostgreSQL database and ES. 
 The primary operations include downloading files from S3, processing images, saving results,updating the database and saving logs to ES.
-
+This project automates the execution of the main.py script at regular intervals (e.g., every 3 minutes) 
+using a simple scheduler. 
+It includes logging for monitoring the process and error handling for better debugging. 
+The system uses subprocess to invoke the main script and ensures periodic execution by sleeping for a specified interval between each run.
+The green_project_file_watcher script automates the periodic execution of the main.py script every 3 minutes, 
+which monitoring an S3 folder for new files to trigger the processing.
 # <span style="color: blue;">**Key Components:**</span>
 
 # <sub>File Management:</sub>
@@ -104,7 +109,12 @@ ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br
 # <span style="color: blue;">**Validation Pipeline Overview**</span>
 
 This project is focused on the validation of image processing models using a combination of image comparison, 
-database updates, and email notifications. The key functionalities are outlined below:
+database updates, and email notifications.
+This script automates the periodic execution of validator.py every 3 minutes, ensuring continuous validation.
+It logs the execution details, handles any errors, and manages the process timing using a simple scheduler that sleeps 
+for a defined interval between executions.
+The validator_file_watcher script automates the periodic execution of the validator.py script every 3 minutes, 
+which monitoring an S3 folder for new files to trigger the processing.
 
 # <span style="color: blue;">**Validation Workflow:**</span>
 The validate() function handles the validation process by:
