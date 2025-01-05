@@ -18,6 +18,7 @@ from greenproject.processing.image_processor import ImageProcessor
 from greenproject.processing.post_image_processor import PostImageProcessor
 from greenproject.db_handler.db_handler import DBHandler
 from greenproject.config import config
+from greenproject.config import db_config
 from greenproject.file_handler import local_file_handler, s3_file_handler
 
 MODEL_PATH  = os.path.join(config.SAVE_MODEL_PATH,config.MODEL_NAME)
@@ -25,13 +26,13 @@ OUTPUT_FOLDER = 'output_folder'
 PARENT_DIR = Path(os.path.abspath(os.path.join(os.getcwd(), '..')))
 LOCAL_DIR = PARENT_DIR / config.local_dir / config.prefix
 
-DB_CONFIG = {
-    'host': 'postgres',
-    'port': '5432',
-    'dbname': 'postgres',
-    'user': 'postgres',
-    'password': '1234'
-}
+#DB_CONFIG = {
+ #   'host': 'postgres',
+#    'port': '5432',
+ #   'dbname': 'postgres',
+ #   'user': 'postgres',
+#    'password': '1234'
+#}
 
 def download_files():
     """Download necessary files from S3."""
@@ -86,7 +87,7 @@ def main():
     if(s3_file_handler.is_folder_empty(config.bucket_name,config.prefix)):
          appLogger.getLogger().debug(f"The folder {config.prefix} is empty")
          print(f"The folder {config.prefix} is empty")
-    db_handler = DBHandler(DB_CONFIG)
+    db_handler = DBHandler(db_config.DB_CONFIG)
     db_handler.connect()
     start_time = datetime.now() 
     download_files()

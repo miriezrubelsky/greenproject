@@ -113,7 +113,7 @@ The validate() function handles the validation process by:
 - Categorizing files into validation and prediction images.<br>
 - Processing the prediction image and calculating the Jaccard similarity score between the predicted and validation images using validation_utils.<br>
 - Sending the validation results via email and updating the database with the calculated score, comparison status, and error messages.<br>
-
+- Move the validation and predict images to complete folder in S3
 ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br>
 
 
