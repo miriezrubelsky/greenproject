@@ -5,6 +5,7 @@ import tqdm
 import rasterio as rio
 from appLogger import AppLogger
 from datetime import datetime
+import shutil
 
 
 # Setup logger
@@ -94,10 +95,18 @@ def main():
     appLogger.getLogger().debug("Start processing")
     offsets, metadata, tif_files = load_data()
     total_data_size =0
+    source_dir =local_file_handler.get_source_dir()
     for tif_file in tif_files:
         data_size = len(tif_file)
         start_time = datetime.now()
         output_path = process_image_file(tif_file, offsets, metadata)
+        try:
+          folder_path = os.path.join(source_dir, tif_file)
+          shutil.rmtree(folder_path)  # This deletes the folder and all its contents
+          print(f"Successfully removed folder and its contents: {tif_file}")  # This deletes the processed tif file from the folder
+          
+        except Exception as e:
+          print(f"Error removing file {tif_file}: {e}")
         end_time = datetime.now()
         run_duration = end_time - start_time
         process_database_run(db_handler, start_time, end_time, data_size, run_duration,output_path)

@@ -125,6 +125,10 @@ def upload_folder_to_s3():
                 s3_client.upload_file(local_file_path, config.bucket_name, s3_key)
                 appLogger.getLogger().debug(f"Successfully uploaded {local_file_path} to s3://{config.bucket_name}/{s3_key}")
                 print(f"Successfully uploaded {local_file_path} to s3://{config.bucket_name}/{s3_key}")
+
+                os.remove(local_file_path)
+                appLogger.getLogger().debug(f"Successfully removed {local_file_path}")
+                print(f"Successfully removed {local_file_path}")
             except Exception as e:
                 appLogger.getLogger().debug(f"Error uploading {local_file_path} to S3: {e}")
                 print(f"Error uploading {local_file_path} to S3: {e}")
