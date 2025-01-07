@@ -61,7 +61,7 @@ services:
     environment:
       - ES_HOST=http://node01:9200  # Elasticsearch container hostname
     ports:
-      - 8000:8000  # Map the port that your app is running on
+      - 8001:8001  # Map the port that your app is running on
     networks:
       - es-network
     depends_on:

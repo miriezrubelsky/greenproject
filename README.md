@@ -127,6 +127,23 @@ The validate() function handles the validation process by:
 ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br>
 
 
+# <span style="color: blue;">**Docker Integration:**</span>
+
+
+GreenSight Mapping Solutions uses Docker to package the entire tree detection pipeline, 
+ensuring consistency across environments and simplifying deployment. Docker containers encapsulate the system's 
+dependencies and configurations, which include  PostgreSQL, Elasticsearch (ES), and all related Python dependencies. 
+Additionally, Docker Compose is employed to create a network that integrates Elasticsearch, Kibana, PostgreSQL, 
+GreenSight project and Validation GreenSight project container. 
+This network enables seamless communication between the services, further enhancing the system's modularity and scalability.
+
+By using Docker and Docker Compose, the project can be easily run on any machine, 
+regardless of the host operating system, making the deployment process faster and more reliable. It also allows developers to focus 
+on building the system without worrying about environment configuration issues.
+To bring up the Docker Compose setup, navigate to the following directory:greenproject\src\greenproject\elastic
+Once inside the directory, run the following commands to build and start the Docker containers:
+  docker-compose build
+  docker-compose up
 
 
 # Project Directory Structure
@@ -147,12 +164,6 @@ ES Logging: All Debug logs are to logs to ES and can be viewed through kibana<br
 │     │  ├─ local_file_handler.py
 │     │  ├─ s3_file_handler.py
 │     ├─ green_project_file_watcher.py
-│     ├─ input-data
-│     │  ├─ trueOrtho_20cm_2.tif
-│     │  ├─ trueOrtho_20cm_3.tif
-│     │  ├─ trueOrtho_20cm_4.tif
-│     │  ├─ trueOrtho_20cm_5.tif
-│     │  └─ __init__.py
 │     ├─ mail_handler
 │     │  ├─ mail_handler.py
 │     │  └─ __init__.py
